@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "48204279754",
+    "project_id": "depan-nu",
+    "storage_bucket": "depan-nu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48204279754:android:33b3378feac593ed076933",
+        "android_client_info": {
+          "package_name": "com.example.depan_nu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48204279754-g71akm349e6qmsqn4ffnnatps23bedgl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHPmdEjP9xmTi4lwph7hngMBX2ak8yq54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48204279754-g71akm349e6qmsqn4ffnnatps23bedgl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

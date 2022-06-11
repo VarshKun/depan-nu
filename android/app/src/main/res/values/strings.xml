@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Depan-Nu</string>
+    <string name="facebook_app_id">2610667342403528</string>
+    <string name="fb_login_protocol_scheme">fb2610667342403528</string>
+    <string name="facebook_client_token">b964d55236d0f77c0e3459108e3cd8fe</string>
+</resources>
