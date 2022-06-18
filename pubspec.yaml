@@ -46,7 +46,9 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   carbon_icons: ^0.0.1
   flutter_feather_icons: ^2.0.0+1
-
+  dialog_flowtter: ^0.3.3
+  sidebarx: ^0.4.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

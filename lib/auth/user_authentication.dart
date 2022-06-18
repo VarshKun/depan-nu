@@ -1,4 +1,4 @@
-import 'package:depan_nu/home_page.dart';
+import 'package:depan_nu/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,7 @@ class UserAuthenticationPage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            return const HomePage();
+            return const MainPage();
           } else if (snapshot.hasError) {
             return const Center(
               child: Text('Something went wrong!'),

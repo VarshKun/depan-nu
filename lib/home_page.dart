@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:carbon_icons/carbon_icons.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,6 +21,7 @@ class CardItem {
 class _HomeScreenState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser!;
   int currentIndex = 0;
+
   List<CardItem> items = [
     const CardItem(
       urlImage: 'assets/images/Promo/HomeCleaning.png',
@@ -44,53 +43,6 @@ class _HomeScreenState extends State<HomePage> {
     //return WillPopScope(
     //onWillPop: () async => false,
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        animationDuration: const Duration(milliseconds: 300),
-        backgroundColor: const Color(0xffF1F5F9),
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-          //Handle button tap
-        },
-        items: <Widget>[
-          Icon(
-            CarbonIcons.home,
-            size: 30,
-            color: currentIndex == 0
-                ? Colors.amber
-                : const Color.fromRGBO(2, 4, 54, 0.5),
-          ),
-          Icon(
-            CarbonIcons.location,
-            size: 30,
-            color: currentIndex == 1
-                ? Colors.amber
-                : const Color.fromRGBO(2, 4, 54, 0.5),
-          ),
-          Icon(
-            CarbonIcons.calendar,
-            size: 30,
-            color: currentIndex == 2
-                ? Colors.amber
-                : const Color.fromRGBO(2, 4, 54, 0.5),
-          ),
-          Icon(
-            CarbonIcons.chat,
-            size: 30,
-            color: currentIndex == 3
-                ? Colors.amber
-                : const Color.fromRGBO(2, 4, 54, 0.5),
-          ),
-          Icon(
-            CarbonIcons.menu,
-            size: 30,
-            color: currentIndex == 4
-                ? Colors.amber
-                : const Color.fromRGBO(2, 4, 54, 0.5),
-          ),
-        ],
-      ),
       backgroundColor: const Color(0xFFF1F5F9),
       body: LayoutBuilder(
         builder: (context, constraint) {
