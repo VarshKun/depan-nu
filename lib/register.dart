@@ -65,7 +65,12 @@ class _RegisterScreenState extends State<RegisterPage> {
   }
 
   Future addUserDetails(String fullName, String email) async {
-    await FirebaseFirestore.instance.collection('users').add({
+    User? user = FirebaseAuth.instance.currentUser;
+    //setState(() {
+    user?.updateDisplayName(fullName);
+    //});
+    await FirebaseAuth.instance.currentUser?.reload();
+    await FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
       'full name': fullName,
       'email ID': email,
     });

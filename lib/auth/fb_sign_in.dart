@@ -4,12 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class FbSignInProvider extends ChangeNotifier {
+  static LoginResult fbLoginDetails =
+      LoginResult(status: LoginStatus.operationInProgress);
   Future fbLogin() async {
     try {
-      final facebookLoginResult = await FacebookAuth.instance.login();
+      fbLoginDetails = await FacebookAuth.instance.login();
       final userData = await FacebookAuth.instance.getUserData();
-      final facebookAuthCredential = FacebookAuthProvider.credential(
-          facebookLoginResult.accessToken!.token);
+      final facebookAuthCredential =
+          FacebookAuthProvider.credential(fbLoginDetails.accessToken!.token);
       await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
 
       await FirebaseFirestore.instance.collection('users').add({
@@ -45,6 +47,7 @@ class FbSignInProvider extends ChangeNotifier {
 
   Future logout() async {
     await FacebookAuth.instance.logOut();
+    //var x = await FacebookAuth.instance.accessToken; if value is null, it means user signed in by email
     FirebaseAuth.instance.signOut();
   }
 }

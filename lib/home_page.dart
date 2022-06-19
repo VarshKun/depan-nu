@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'auth/fb_sign_in.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -36,7 +38,7 @@ class _HomeScreenState extends State<HomePage> {
       title: 'Sofa Cleaning',
     ),
   ];
-
+  var accessToken = FbSignInProvider.fbLoginDetails.accessToken?.token;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -89,9 +91,12 @@ class _HomeScreenState extends State<HomePage> {
                                                             .shrink()
                                                         : CircleAvatar(
                                                             radius: 40,
-                                                            backgroundImage:
-                                                                NetworkImage(user
-                                                                    .photoURL!),
+                                                            backgroundImage: NetworkImage(
+                                                                accessToken ==
+                                                                        null
+                                                                    ? user
+                                                                        .photoURL!
+                                                                    : "${user.photoURL!}?height=1000&access_token=$accessToken"),
                                                           ),
                                                   ),
                                                   Expanded(
