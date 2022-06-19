@@ -47,7 +47,6 @@ dependencies:
   carbon_icons: ^0.0.1
   flutter_feather_icons: ^2.0.0+1
   dialog_flowtter: ^0.3.3
-  
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +91,7 @@ flutter:
   - assets/images/login_Illus_bg.png
   - assets/images/login_Illus_person.png
   - assets/images/register_Illus.png
+  - assets/images/robot.jpg
   - assets/images/icons/padlock.png
   - assets/images/icons/Facebook.png
   - assets/images/icons/Google.png
@@ -111,6 +111,7 @@ flutter:
   - assets/images/Promo/CarpetCleaning.jpg
   - assets/images/Promo/HomeCleaning.png
   - assets/images/Promo/SofaCleaning.jpg
+  - assets/dialog_flow_auth.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

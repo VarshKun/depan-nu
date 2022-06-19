@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "depannuchatbot-sbhd",
+  "private_key_id": "69884fd5358007f92c2ded70b1e4c697fa997a6b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDdEV9pre1JHYEF\nhXrGMc/G56LKYZFnZuEmKb4hvEFiVaS8dBfP6QwLKtQRv+QRRAgf7VsnkFXZSPiX\n90egLT6qAyCwZowpxUpUv7S9D//hSgO3umaf4iySNnTMDlpOC7aG0G/orbZTiFGi\nofaFzJWBfaIml4Am+Y8kwluwcLPt18UxHAwgUjPo/vk1asnIPiP9EbO8kFBEXNc6\ngPZBNvJSBbq2BWbpuVFI45TJU8hPAkhvj1OFMZZyjijujanzDP2ef93vgLQnJ2Gf\nEc5xC2xFzi080IIAI9qeL99/YBKRYppCBF9t5SEknkeuOa4yWr3fQ2CQkfuPTfJ/\nY4kFrxo9AgMBAAECggEADNkyo3DBZst5MTn1zckdW2EhHAQZsFnRYidw7oMDhdSW\nc4GH1MSlt4xwsOtnNP2wPzLLZnxEERHlqOdtWUjn6HewEbCUGuVlkZFmzso8Q/rK\nRoZl6or5rjHODgITi4+wtxssNejKvQYiQIKLUnF2iwUjRHzvrNQ6VpeZPqL+Qid5\nlGoeVNgelcPNDn62q/2RdhZlXYR/3H8HuKzA/d0qhMaQQrwD3Y8kkoJOh3aC0EW7\ny/RwumIIKuiqDOD1tnTjVMi2ypU50h3yA49MAwdEsspYKmC4j7C1XEjy7/Gu6dGZ\n7DE5c98y623mRuIyijoO06BoTPH7+t/U7W1rb+E9YQKBgQD60o3SHzHUHSaqzkDx\n9/QNubMNc6+vyRoqJYg2mYiodtXOQAD7fCUGcqgBdc3MXSlv/pwLVd5fIID/jKTY\nDgTNMDZu6kq2AzsMbZLoH8/ZzsFCg0CCGzbN3NAdRiPYrL3+6OT5GzpoAer0bj7I\nrU/6Nyn5mlE9cZv21fD5cwZ1WQKBgQDhoZVeKlzVa5NLW9IOeYGSSZAElcYe+DWw\nqfFPk19+WbyXFdKCk55/0jVSjVIUfZsCIcMMC2JeTkyK7wxVdl198fJb6bie0Ig/\n2qP19IhGt13oMIfN3OjyV7NI6wd5+h2InFJvdPeOry4RqxRoWPrVBJA7p8zyNnDe\n4QGXWVnbhQKBgAURM+RG1Q7f9+QDfrRkuf18/u0KpUX73hdz4qiXuXcNz4v3Jw3t\nmCHlNxewdZPnXerxTd28wl1RnsmK4dmrjtVGYBMlkJTUw+CgZhNicSSJVMYvOKJo\nQlcuWtX8kMTT2JLJybZuomNvhnuhrosHVVJMwwBT6cg//1KhR9kCReMhAoGBAIyV\nYz3y4zjO+E2h/nWqW4NMdoGE2Jb/TGSw3nwYdQ2C2DDDFhDp7X3y+epfx16hDG39\nn0vn4/iijKqcW3D8eTA6CioerDu37szqa/KZ1DdLlSVQ56zrEfG9lyW920CzCKfP\nzsVHed/bYrb7g5Gor1D+sOeam+Xm6djVFWq573UJAoGBAOZLEkYvKeZ7NPLYPdLk\nK5/LrTfs4lDkgbW2GpJZUrYLHwuWng69okh6XV7wsapZCrBQZZz4ZS4808KQjk6e\nVNn4klnqjGdX3Z6XAMBqGCWrV7G3SPmiI3wJNDHJyE1udGCTVniaNqlfJMXRdOZM\nm+U5DJSaLMzMBzoEP1dXl3HW\n-----END PRIVATE KEY-----\n",
+  "client_email": "depannubot@depannuchatbot-sbhd.iam.gserviceaccount.com",
+  "client_id": "113193893404857628028",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/depannubot%40depannuchatbot-sbhd.iam.gserviceaccount.com"
+}

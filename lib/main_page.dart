@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depan_nu/chatbot.dart';
-import 'package:depan_nu/components/sidebar.dart';
 import 'package:depan_nu/map.dart';
 import 'package:depan_nu/settings_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';

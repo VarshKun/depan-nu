@@ -22,6 +22,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterPage> {
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
+  bool emailAlreadyInUse = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -39,10 +40,21 @@ class _RegisterScreenState extends State<RegisterPage> {
   Future signUp() async {
     if (passwordConfirmed() && enteredName()) {
       // create user
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+      } catch (signUpError) {
+        if (signUpError is PlatformException) {
+          if (signUpError.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
+            /// `foo@bar.com` has alread been registered.
+            setState(() {
+              emailAlreadyInUse = true;
+            });
+          }
+        }
+      }
 
       // add user details if password good
       addUserDetails(
@@ -470,6 +482,8 @@ class _RegisterScreenState extends State<RegisterPage> {
       if (value.length > 5 && value.contains('@') && value.endsWith('.com')) {
         return null;
       }
+    } else if (emailAlreadyInUse) {
+      return 'Email already in use. Please enter a valid e-mail ID';
     }
     return 'Enter a valid e-mail ID';
   }
