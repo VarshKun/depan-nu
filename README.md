@@ -1,6 +1,6 @@
 # depan_nu
 
-A new Flutter project.
+An app which provides handyman services
 
 ## Getting Started
 
