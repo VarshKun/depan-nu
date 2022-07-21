@@ -1,3 +1,4 @@
+import 'package:depan_nu/bookings_page_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -841,7 +842,16 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                             0xff6759FF),
                                                         child: InkWell(
                                                           onTap: () {
-                                                            setState(() {});
+                                                            setState(() {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          const BookingsMapPage(),
+                                                                ),
+                                                              );
+                                                            });
                                                           },
                                                           highlightColor:
                                                               const Color

@@ -1,5 +1,6 @@
 import 'package:depan_nu/auth/fb_sign_in.dart';
 import 'package:depan_nu/auth/google_sign_in.dart';
+import 'package:depan_nu/dataprovider/appdata.dart';
 import 'package:depan_nu/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => GoogleSignInProvider()),
-          ChangeNotifierProvider(create: (context) => FbSignInProvider())
+          ChangeNotifierProvider(create: (context) => FbSignInProvider()),
+          ChangeNotifierProvider(create: (context) => AppData()),
         ],
         //create: (context) => GoogleSignInProvider(),
         child: MaterialApp(

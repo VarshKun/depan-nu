@@ -18,13 +18,15 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final user = FirebaseAuth.instance.currentUser!;
+  // ignore: prefer_final_fields
   Completer<GoogleMapController> _controller = Completer();
   late GoogleMapController mapController;
   late Position currentPosition;
   Set<Marker> _markers = {};
+  // ignore: prefer_final_fields
   Set<Circle> _circles = {};
   List<dynamic> workersAvailableLocation = [];
-
+  // ignore: prefer_final_fields
   List<Polyline> _polylines = [];
   //var workersAvailableLocation = <double, double>{};
   double distanceinKM = 0;
@@ -43,9 +45,9 @@ class _MapPageState extends State<MapPage> {
     // ignore: unnecessary_null_comparison
     if (currentWorkersServingIcon == null) {
       ImageConfiguration imageConfiguration =
-          createLocalImageConfiguration(context, size: const Size(5, 5));
+          createLocalImageConfiguration(context, size: const Size(2, 2));
       BitmapDescriptor.fromAssetImage(
-              imageConfiguration, "assets/images/icons/workerIcon.png")
+              imageConfiguration, "assets/images/icons/workerIcon4.png")
           .then((icon) {
         currentWorkersServingIcon = icon;
       });
@@ -54,6 +56,7 @@ class _MapPageState extends State<MapPage> {
 
   Future<void> getWorkerLocations() async {
     DatabaseReference workers = FirebaseDatabase.instance.ref('workers');
+    // ignore: prefer_collection_literals
     Set<Marker> tempMarkers = Set<Marker>();
     PolylinePoints polylinePoints = PolylinePoints();
     Position position = await Geolocator.getCurrentPosition(
@@ -62,12 +65,11 @@ class _MapPageState extends State<MapPage> {
 
     workers.onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value as Map;
+      // ignore: avoid_print
       print('WORKERS: $data');
-      var polycounter = 0;
       data.forEach((key, value) async {
         /*ADDING MARKERS ACCORDING TO THE ONES SERVING YOU */
         if (value["serving"] == user.email) {
-          polycounter++;
           String workerName = value["fullname"];
           LatLng workerLocation =
               LatLng(value["location"]["lat"], value["location"]["long"]);
@@ -79,9 +81,10 @@ class _MapPageState extends State<MapPage> {
           tempMarkers.removeWhere(
               (element) => element.markerId == thisMarker.markerId);
           tempMarkers.add(thisMarker);
-
+          /*polyline drawing */
           var thisDetails = await HelperMethods.getDirectionDetails(
               currentPos, workerLocation);
+          // ignore: avoid_print
           print(thisDetails?.encodedPoints);
 
           List<PointLatLng> results =
@@ -90,20 +93,16 @@ class _MapPageState extends State<MapPage> {
           List<LatLng> polylineCoordinates = [];
 
           if (results.isNotEmpty) {
+            // ignore: avoid_function_literals_in_foreach_calls
             results.forEach((PointLatLng points) {
               polylineCoordinates
                   .add(LatLng(points.latitude, points.longitude));
             });
-
-            // for (var points in results) {
-            //   polylineCoordinates
-            //       .add(LatLng(points.latitude, points.longitude));
-            // }
           }
           //_polylines.clear();
           setState(() {
             Polyline polyline = Polyline(
-              polylineId: PolylineId('polyid$polycounter'),
+              polylineId: PolylineId(workerName),
               color: Colors.green,
               points: polylineCoordinates,
               jointType: JointType.round,
@@ -112,21 +111,18 @@ class _MapPageState extends State<MapPage> {
               endCap: Cap.roundCap,
               geodesic: true,
             );
-
+            _polylines.removeWhere(
+                (element) => element.polylineId == polyline.polylineId);
             _polylines.add(polyline);
-            polycounter++;
           });
         } else if (value["serving"] == "none") {
           String workerName = value["fullname"];
-          LatLng workerLocation =
-              LatLng(value["location"]["lat"], value["location"]["long"]);
-          Marker thisMarker = Marker(
-            markerId: MarkerId(workerName),
-            position: workerLocation,
-            icon: currentWorkersServingIcon!,
-          );
+
           tempMarkers.removeWhere(
-              (element) => element.markerId == thisMarker.markerId);
+              (element) => element.markerId == MarkerId(workerName));
+
+          _polylines.removeWhere(
+              (element) => element.polylineId == PolylineId(workerName));
         }
 
         /*ADDING MARKERS ACCORDING TO NEARBY WORKERS */
@@ -165,6 +161,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   void setupPositionLocation() async {
+    // ignore: unused_local_variable
     LocationPermission permission = await Geolocator.requestPermission();
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.bestForNavigation);

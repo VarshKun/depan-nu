@@ -67,6 +67,9 @@ dependencies:
   flutter_geofire: ^2.0.1
   flutter_polyline_points: ^1.0.0
   http: ^0.13.4
+  brand_colors: ^0.0.3
+  connectivity: ^3.0.6
+  custom_progress_dialog: ^1.0.5
 
 dev_dependencies:
   flutter_test:
@@ -112,7 +115,12 @@ flutter:
   - assets/images/register_Illus.png
   - assets/images/robot.jpg
   - assets/images/default_user.png
-  - assets/images/icons/workerIcon.png
+  - assets/images/icons/pickicon.png
+  - assets/images/icons/desticon.png
+  - assets/images/icons/workerIcon1.png
+  - assets/images/icons/workerIcon2.png
+  - assets/images/icons/workerIcon3.png
+  - assets/images/icons/workerIcon4.png
   - assets/images/icons/home.png
   - assets/images/icons/office.png
   - assets/images/icons/villa.png
