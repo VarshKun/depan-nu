@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,10 +14,20 @@ class _BookingsPageState extends State<BookingsPage> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    return const Scaffold(
-      backgroundColor: Color(0xFFF1F5F9),
+    return Scaffold(
+      backgroundColor: const Color(0xFFF1F5F9),
       body: Center(
-        child: Text("Welcome to bookings page"),
+        child: MaterialButton(
+          onPressed: () {
+            DatabaseReference dbref =
+                FirebaseDatabase.instance.ref().child('Test');
+            dbref.set('isConnected');
+          },
+          height: 50,
+          minWidth: 300,
+          color: Colors.green,
+          child: const Text('Test Connection'),
+        ),
       ),
     );
   }

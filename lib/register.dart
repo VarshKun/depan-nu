@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'components/login_register_button.dart';
 import 'components/social_media_fb.dart';
 import 'components/social_media_google.dart';
@@ -23,6 +27,11 @@ class _RegisterScreenState extends State<RegisterPage> {
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
   bool emailAlreadyInUse = false;
+  final _emailFormKey = GlobalKey<FormState>();
+  final _passwordFormKey = GlobalKey<FormState>();
+  final _nameFormKey = GlobalKey<FormState>();
+  late File _pickedImage;
+  late String url;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -41,38 +50,75 @@ class _RegisterScreenState extends State<RegisterPage> {
     if (passwordConfirmed() && enteredName()) {
       // create user
       try {
+        // ignore: unnecessary_null_comparison
+        if (_pickedImage == null) {
+          // ignore: avoid_print
+          print('please pick image');
+        } else {
+          final ref = FirebaseStorage.instance
+              .ref()
+              .child('userImages')
+              // ignore: prefer_interpolation_to_compose_strings
+              .child(_fullNameController.text.trim() + '.jpg');
+
+          await ref.putFile(_pickedImage);
+          url = await ref.getDownloadURL();
+        }
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
+
+        if (_emailFormKey.currentState!.validate() &&
+            _passwordFormKey.currentState!.validate() &&
+            _nameFormKey.currentState!.validate()) {
+          //add user details if password good
+          addUserDetails(
+            _fullNameController.text.trim(),
+            _emailController.text.trim(),
+            url,
+          );
+        }
       } catch (signUpError) {
-        if (signUpError is PlatformException) {
-          if (signUpError.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
-            /// `foo@bar.com` has alread been registered.
+        if (signUpError is FirebaseAuthException) {
+          if (signUpError.code == 'email-already-in-use') {
+            /// `foo@bar.com` has already been registered.
             setState(() {
               emailAlreadyInUse = true;
             });
           }
         }
       }
-
-      // add user details if password good
-      addUserDetails(
-        _fullNameController.text.trim(),
-        _emailController.text.trim(),
-      );
+    } else {
+      _emailFormKey.currentState!.validate();
+      _passwordFormKey.currentState!.validate();
+      _nameFormKey.currentState!.validate();
     }
   }
 
-  Future addUserDetails(String fullName, String email) async {
+  void pickUploadImage() async {
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 512,
+      maxHeight: 512,
+      imageQuality: 100,
+    );
+
+    setState(() {
+      _pickedImage = File(image!.path);
+    });
+  }
+
+  Future addUserDetails(String fullName, String email, String imageUrl) async {
     User? user = FirebaseAuth.instance.currentUser;
     //setState(() {
     user?.updateDisplayName(fullName);
     //});
     await FirebaseAuth.instance.currentUser?.reload();
     await FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
+      'email': email,
       'full name': fullName,
-      'email ID': email,
+      'profile picture': imageUrl,
     });
   }
 
@@ -111,20 +157,6 @@ class _RegisterScreenState extends State<RegisterPage> {
                   alignment: Alignment.center,
                   child: AnimatedImage(),
                 ),
-                // child: Stack(
-                //   children: const [
-                //     // Align(
-                //     //   alignment: Alignment.topLeft,
-                //     //   child: backButton(),
-                //     // ),
-                //     Center(
-                //       child: AnimatedImage(),
-                //     ),
-                //   ],
-                // ),
-                // child: Container(
-                //   color: Colors.amber,
-                // ),
               ),
               Expanded(
                 flex: 7,
@@ -199,11 +231,48 @@ class _RegisterScreenState extends State<RegisterPage> {
                             fontFamily: "Lato",
                           ),
                         ),
-
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.account_circle_outlined,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            //Color(0xffdfb349)
+                            InkWell(
+                              onTap: () {
+                                pickUploadImage();
+                              },
+                              splashColor: const Color(0xffdfb349),
+                              child: const Text(
+                                "Add a profile picture",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0x5b010435),
+                                  fontSize: 20,
+                                  fontFamily: "Lato",
+                                  fontStyle: FontStyle.italic,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         // email textfield
                         SizedBox(
                           width: 300,
                           child: Form(
+                            key: _emailFormKey,
                             autovalidateMode: AutovalidateMode.always,
                             child: TextFormField(
                               controller: _emailController,
@@ -252,6 +321,7 @@ class _RegisterScreenState extends State<RegisterPage> {
                         SizedBox(
                           width: 300,
                           child: Form(
+                            key: _nameFormKey,
                             autovalidateMode: AutovalidateMode.always,
                             child: TextFormField(
                               controller: _fullNameController,
@@ -300,6 +370,7 @@ class _RegisterScreenState extends State<RegisterPage> {
                         SizedBox(
                           width: 300,
                           child: Form(
+                            key: _passwordFormKey,
                             autovalidateMode: AutovalidateMode.always,
                             child: TextFormField(
                               controller: _passwordController,
@@ -413,11 +484,14 @@ class _RegisterScreenState extends State<RegisterPage> {
                           ),
                         ),
                         const SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
                         login_register_button(
                           text: "Register",
                           press: signUp,
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         SizedBox(
                           width: 300,
@@ -484,13 +558,14 @@ class _RegisterScreenState extends State<RegisterPage> {
 
   String? validateEmail(String? value) {
     if (value != null) {
-      if (value.length > 5 && value.contains('@') && value.endsWith('.com')) {
-        return null;
+      if (!(value.length > 5 && value.contains('@'))) {
+        return 'Enter a valid e-mail ID';
       }
-    } else if (emailAlreadyInUse) {
-      return 'Email already in use. Please enter a valid e-mail ID';
+      if (emailAlreadyInUse) {
+        return 'Email is already in use. Please enter a valid e-mail ID';
+      }
     }
-    return 'Enter a valid e-mail ID';
+    return null;
   }
 
   // ignore: body_might_complete_normally_nullable

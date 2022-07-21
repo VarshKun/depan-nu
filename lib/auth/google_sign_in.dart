@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,6 +15,25 @@ class GoogleSignInProvider extends ChangeNotifier {
         return;
       } else {
         _user = googleUser;
+
+        final QuerySnapshot result = await FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: _user?.email)
+            .get();
+
+        final List<DocumentSnapshot> documents = result.docs;
+        if (documents.isNotEmpty) {
+          //already exists
+          // ignore: avoid_print
+          print("email already exists");
+        } else {
+          //email does not exist
+          await FirebaseFirestore.instance.collection('users').add({
+            'full name': _user?.displayName,
+            'email': _user?.email,
+            'profile picture': _user?.photoUrl,
+          });
+        }
       }
 
       final googleAuth = await googleUser.authentication;

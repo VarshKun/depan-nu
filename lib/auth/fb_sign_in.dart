@@ -14,11 +14,25 @@ class FbSignInProvider extends ChangeNotifier {
           FacebookAuthProvider.credential(fbLoginDetails.accessToken!.token);
       await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
 
-      await FirebaseFirestore.instance.collection('users').add({
-        'full name': userData['name'],
-        'email': userData['email'],
-        'profile picture': userData['picture']['data']['url'],
-      });
+      final QuerySnapshot result = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: userData['email'])
+          .get();
+
+      final List<DocumentSnapshot> documents = result.docs;
+
+      if (documents.isNotEmpty) {
+        //already exists
+        // ignore: avoid_print
+        print("email already exists");
+      } else {
+        //does not exist
+        await FirebaseFirestore.instance.collection('users').add({
+          'full name': userData['name'],
+          'email': userData['email'],
+          'profile picture': userData['picture']['data']['url'],
+        });
+      }
     } on FirebaseAuthException catch (e) {
       var content = '';
       switch (e.code) {
@@ -49,5 +63,15 @@ class FbSignInProvider extends ChangeNotifier {
     await FacebookAuth.instance.logOut();
     //var x = await FacebookAuth.instance.accessToken; if value is null, it means user signed in by email
     FirebaseAuth.instance.signOut();
+  }
+
+  Future<bool> emailAlreadyExist(String email) async {
+    final QuerySnapshot result = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email ID', isEqualTo: email)
+        .limit(1)
+        .get();
+    final List<DocumentSnapshot> documents = result.docs;
+    return documents.length == 1;
   }
 }

@@ -8,6 +8,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:carbon_icons/carbon_icons.dart';
 import 'bookings_page.dart';
 import 'home_page.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:oktoast/oktoast.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -36,12 +38,33 @@ class _MainPageState extends State<MainPage> {
     const SettingsPage(),
   ];
 
+  // ignore: non_constant_identifier_names
+  checkPermission_microphone() async {
+    var microphoneStatus = await Permission.microphone.status;
+    // ignore: avoid_print
+    print(microphoneStatus);
+
+    if (!microphoneStatus.isGranted) {
+      await Permission.microphone.request();
+    }
+
+    if (await Permission.microphone.isGranted) {
+      setState(() {
+        currentIndex = 3;
+      });
+    } else {
+      showToast("Provide access to microphone to access chatbot",
+          position: ToastPosition.center);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     //return WillPopScope(
     //onWillPop: () async => false,
     return Scaffold(
+      //extendBody: true,
       body: screens[currentIndex],
       bottomNavigationBar: CurvedNavigationBar(
         color: const Color.fromARGB(255, 228, 239, 255),
@@ -52,6 +75,9 @@ class _MainPageState extends State<MainPage> {
         onTap: (index) {
           setState(() {
             currentIndex = index;
+            if (currentIndex == 3) {
+              checkPermission_microphone();
+            }
           });
           //Handle button tap
         },

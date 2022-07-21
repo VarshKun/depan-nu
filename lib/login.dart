@@ -19,14 +19,26 @@ class _LoginPageState extends State<LoginPage> {
   bool obscurePassword = true;
   var loading = false;
   //text controllers
+  final _emailFormKey = GlobalKey<FormState>();
+  final _passwordFormKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
+    try {
+      if (_emailFormKey.currentState!.validate() &&
+          _passwordFormKey.currentState!.validate()) {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      // ignore: avoid_print
+      print('Failed with error code: ${e.code}');
+      // ignore: avoid_print
+      print(e.message);
+    }
   }
 
   @override
@@ -94,6 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           width: 300,
                           child: Form(
+                            key: _emailFormKey,
                             autovalidateMode: AutovalidateMode.always,
                             child: TextFormField(
                               controller: _emailController,
@@ -140,6 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           width: 300,
                           child: Form(
+                            key: _passwordFormKey,
                             autovalidateMode: AutovalidateMode.always,
                             child: TextFormField(
                               controller: _passwordController,

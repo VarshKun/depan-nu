@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "48204279754-ankrod59ttjcprchqd55nr1n66rfg3e4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.depan_nu",
+            "certificate_hash": "9480de7de0bc6f0b3d9e25ac344428a268bf2971"
+          }
+        },
+        {
+          "client_id": "48204279754-gviqt9gd88s9tk30gp5iq0gi9lcnrb26.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.depan_nu",
+            "certificate_hash": "7c1a3d5807a649eea1ebc86928c5274fb4f83ce7"
+          }
+        },
+        {
           "client_id": "48204279754-g71akm349e6qmsqn4ffnnatps23bedgl.apps.googleusercontent.com",
           "client_type": 3
         }
