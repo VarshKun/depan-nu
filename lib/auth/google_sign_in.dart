@@ -5,12 +5,24 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn();
+  User? userDet;
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
 
   Future googleLogin() async {
     try {
       final googleUser = await googleSignIn.signIn();
+      final googleAuth = await googleUser!.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      userDet = userCredential.user;
+
       if (googleUser == null) {
         return;
       } else {
@@ -28,21 +40,17 @@ class GoogleSignInProvider extends ChangeNotifier {
           print("email already exists");
         } else {
           //email does not exist
-          await FirebaseFirestore.instance.collection('users').add({
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userDet!.uid)
+              .set({
             'full name': _user?.displayName,
             'email': _user?.email,
             'profile picture': _user?.photoUrl,
+            'bookings': ''
           });
         }
       }
-
-      final googleAuth = await googleUser.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       // ignore: avoid_print
       print(e.toString());

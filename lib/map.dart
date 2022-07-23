@@ -47,7 +47,7 @@ class _MapPageState extends State<MapPage> {
       ImageConfiguration imageConfiguration =
           createLocalImageConfiguration(context, size: const Size(2, 2));
       BitmapDescriptor.fromAssetImage(
-              imageConfiguration, "assets/images/icons/workerIcon4.png")
+              imageConfiguration, "assets/images/icons/workerIcon1.png")
           .then((icon) {
         currentWorkersServingIcon = icon;
       });

@@ -119,6 +119,7 @@ class _RegisterScreenState extends State<RegisterPage> {
       'email': email,
       'full name': fullName,
       'profile picture': imageUrl,
+      'bookings': ''
     });
   }
 

@@ -70,6 +70,9 @@ dependencies:
   brand_colors: ^0.0.3
   connectivity: ^3.0.6
   custom_progress_dialog: ^1.0.5
+  line_icons: ^2.0.1
+  flutter_credit_card: ^3.0.1
+  local_auth: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -104,6 +107,8 @@ flutter:
         - asset: assets/fonts/Lato-Regular.ttf
   # To add assets to your application, add an assets section, like this:
   assets:
+  - assets/images/bg.png
+  - assets/images/card_bg.png
   - assets/images/Depan_Nu_Logo.png
   - assets/images/logo_foreground.png
   - assets/images/onboard1.png
@@ -171,6 +176,12 @@ flutter:
   - assets/images/subCat/AC/AC_RegularService2.png
   - assets/images/subCat/AC/AC_Uninstallation.png
   - assets/images/subCat/AC/AC_Uninstallation2.png
+  - assets/images/subCat/Salon/hairdressing.png
+  - assets/images/subCat/Salon/hairdressing2.png
+  - assets/images/subCat/Salon/homeMassage.png
+  - assets/images/subCat/Salon/homeMassage2.png
+  - assets/images/subCat/Salon/nailManicure.png
+  - assets/images/subCat/Salon/nailManicure2.png
   - assets/animations/Dark-Mode.json
   - assets/animations/Dark-Mode2.json
   # An image asset can refer to one or more resolution-specific "variants", see

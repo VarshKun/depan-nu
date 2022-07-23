@@ -50,6 +50,7 @@ class PredictionTile extends StatelessWidget {
       // ignore: avoid_print
       print(thisPlace.placeName);
       globals.userController.text = thisPlace.placeName!;
+      Navigator.pop(context, 'getDirection');
     }
   }
 

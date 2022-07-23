@@ -37,7 +37,7 @@ class HelperMethods {
     return placeAddress;
   }
 
-  static Future<String> findCoordinateAddressViaCoordinates(
+  static Future<String> findAddressViaCoordinates(
       LatLng latLng, context) async {
     String placeAddress = '';
     var connectivityResult = await Connectivity().checkConnectivity();
@@ -59,7 +59,7 @@ class HelperMethods {
       closestWorkerAddress.latitude = latLng.latitude;
       closestWorkerAddress.placeName = placeAddress;
 
-      if (closestWorkerAddress.placeId!.isNotEmpty) {
+      if (closestWorkerAddress.placeName != null) {
         Provider.of<AppData>(context, listen: false)
             .updateClosestWorkerAddress(closestWorkerAddress);
       }

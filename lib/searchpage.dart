@@ -19,8 +19,9 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   String userLocation = '';
-  //var userController = TextEditingController(); //pickup
+  var userController = TextEditingController(); //pickup
   var workerController = TextEditingController(); //dest
+  bool buttonState = true;
 
   List<Prediction> userAddressPredictionList = [];
 
@@ -46,17 +47,30 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
+  void setButtonState() {
+    setState(() {
+      if (Provider.of<AppData>(context).closestWorkerAddress!.placeName ==
+          null) {
+        buttonState = false;
+      } else {
+        buttonState = true;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    setButtonState();
     String address =
         Provider.of<AppData>(context).userBookingAddress.placeName ?? '';
     String closestWorkerAddress =
-        (Provider.of<AppData>(context).closestWorkerAddress == null)
+        (Provider.of<AppData>(context).closestWorkerAddress!.placeName == null)
             ? "No worker available"
             : Provider.of<AppData>(context).closestWorkerAddress!.placeName ??
                 '';
     workerController.text = closestWorkerAddress;
-    //userController.text = address;
+
+    userController.text = address;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
@@ -64,7 +78,7 @@ class _SearchPageState extends State<SearchPage> {
         child: Column(
           children: <Widget>[
             Container(
-              height: 210,
+              height: 280,
               decoration: const BoxDecoration(
                 color: Color(0xFFF1F5F9),
                 boxShadow: [
@@ -136,7 +150,7 @@ class _SearchPageState extends State<SearchPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: TextField(
-                                enableInteractiveSelection: true,
+                                readOnly: true,
                                 onChanged: (value) {
                                   TextSelection previousSelection =
                                       globals.userController.selection;
@@ -150,7 +164,7 @@ class _SearchPageState extends State<SearchPage> {
                                   searchPlace(value);
                                 },
                                 autofocus: true,
-                                controller: globals.userController,
+                                controller: userController,
                                 //controller: userController,
                                 decoration: InputDecoration(
                                   hintText: address,
@@ -202,6 +216,47 @@ class _SearchPageState extends State<SearchPage> {
                           ),
                         ),
                       ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 20),
+                      child: Container(
+                        height: 45,
+                        margin: const EdgeInsets.all(4),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Material(
+                            color: buttonState
+                                ? const Color(0xff6759FF)
+                                : BrandColors.viberGray,
+                            child: InkWell(
+                              onTap: buttonState
+                                  ? () {
+                                      Navigator.pop(context, 'getDirection');
+                                    }
+                                  : null,
+                              highlightColor: const Color.fromARGB(
+                                255,
+                                207,
+                                203,
+                                255,
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  "BOOK NOW",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontFamily: "Lato",
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),

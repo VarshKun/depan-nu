@@ -1,5 +1,10 @@
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:brand_colors/brand_colors.dart';
+import 'package:depan_nu/bookings_page_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:depan_nu/globalvariables.dart' as globals;
+import 'package:line_icons/line_icons.dart';
 
 class AcUninstallationPage extends StatefulWidget {
   const AcUninstallationPage({Key? key}) : super(key: key);
@@ -203,8 +208,8 @@ class _AcUninstallationPageState extends State<AcUninstallationPage> {
                                                   margin:
                                                       const EdgeInsets.all(20),
                                                   child: Icon(
-                                                    Icons.home_outlined,
-                                                    size: 50,
+                                                    LineIcons.home,
+                                                    size: 45,
                                                     color: _homeHasBeenPressed
                                                         ? Colors.white
                                                         : const Color(
@@ -287,8 +292,8 @@ class _AcUninstallationPageState extends State<AcUninstallationPage> {
                                                   margin:
                                                       const EdgeInsets.all(20),
                                                   child: Icon(
-                                                    Icons.home_work_outlined,
-                                                    size: 50,
+                                                    LineIcons.briefcase,
+                                                    size: 45,
                                                     color: _officeHasBeenPressed
                                                         ? Colors.white
                                                         : const Color(
@@ -373,8 +378,8 @@ class _AcUninstallationPageState extends State<AcUninstallationPage> {
                                                   margin:
                                                       const EdgeInsets.all(20),
                                                   child: Icon(
-                                                    Icons.villa_outlined,
-                                                    size: 50,
+                                                    LineIcons.hotel,
+                                                    size: 45,
                                                     color: _villaHasBeenPressed
                                                         ? Colors.white
                                                         : const Color(
@@ -813,11 +818,51 @@ class _AcUninstallationPageState extends State<AcUninstallationPage> {
                                                         BorderRadius.circular(
                                                             10),
                                                     child: Material(
-                                                      color: const Color(
-                                                          0xff6759FF),
+                                                      color: (_homeHasBeenPressed ||
+                                                              _officeHasBeenPressed ||
+                                                              _villaHasBeenPressed)
+                                                          ? const Color(
+                                                              0xff6759FF)
+                                                          : BrandColors
+                                                              .viberGray,
                                                       child: InkWell(
                                                         onTap: () {
-                                                          setState(() {});
+                                                          setState(() {
+                                                            if (_homeHasBeenPressed) {
+                                                              globals.occasionType =
+                                                                  "Home";
+                                                            } else if (_officeHasBeenPressed) {
+                                                              globals.occasionType =
+                                                                  "Office";
+                                                            } else if (_villaHasBeenPressed) {
+                                                              globals.occasionType =
+                                                                  "Villa";
+                                                            }
+                                                            globals.noOfRooms =
+                                                                roomCount;
+                                                            globals.noOfUnits =
+                                                                unitCount;
+                                                            globals.totalCost =
+                                                                unitsCost +
+                                                                    workersCosts;
+                                                            globals.acService =
+                                                                "AC Uninstallation";
+                                                            globals.categorySelected =
+                                                                "AC";
+                                                            (_homeHasBeenPressed ||
+                                                                    _officeHasBeenPressed ||
+                                                                    _villaHasBeenPressed)
+                                                                ? Navigator
+                                                                    .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              const BookingsMapPage(),
+                                                                    ),
+                                                                  )
+                                                                : null;
+                                                          });
                                                         },
                                                         highlightColor:
                                                             const Color

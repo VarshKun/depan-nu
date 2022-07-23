@@ -31,6 +31,7 @@ class FbSignInProvider extends ChangeNotifier {
           'full name': userData['name'],
           'email': userData['email'],
           'profile picture': userData['picture']['data']['url'],
+          'bookings:': ''
         });
       }
     } on FirebaseAuthException catch (e) {

@@ -6,22 +6,22 @@ import 'package:flutter/services.dart';
 import 'package:depan_nu/globalvariables.dart' as globals;
 import 'package:line_icons/line_icons.dart';
 
-class AcRegularServicePage extends StatefulWidget {
-  const AcRegularServicePage({Key? key}) : super(key: key);
+class HairDressingPage extends StatefulWidget {
+  const HairDressingPage({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _AcRegularServicePageState createState() => _AcRegularServicePageState();
+  _HairDressingPageState createState() => _HairDressingPageState();
 }
 
-class _AcRegularServicePageState extends State<AcRegularServicePage> {
-  bool _officeHasBeenPressed = false;
+class _HairDressingPageState extends State<HairDressingPage> {
+  bool _weddingHasBeenPressed = false;
   bool _homeHasBeenPressed = false;
-  bool _villaHasBeenPressed = false;
-  int unitCount = 1;
+  bool _eventHasBeenPressed = false;
+  int personCount = 1;
   int roomCount = 1;
-  int unitsCost = 500;
-  int workersCosts = 1000;
+  int personsCost = 500;
+  int workersCosts = 500;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                     image: const DecorationImage(
                         alignment: Alignment.topCenter,
                         image: AssetImage(
-                            "assets/images/subCat/AC/AC_RegularService2.png"),
+                            "assets/images/subCat/Salon/hairdressing2.png"),
                         fit: BoxFit.fitHeight),
                   ),
                 ),
@@ -89,10 +89,10 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                   ),
                 ),
                 Container(
-                  width: 150,
+                  width: 200,
                   margin: const EdgeInsets.only(left: 20, top: 120),
                   child: const Text(
-                    "AC Regular Service",
+                    "Hairdressing",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       color: Colors.white,
@@ -128,7 +128,7 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                             const Expanded(
                               child: SizedBox(
                                 child: Text(
-                                  "Type of Property",
+                                  "Occasion type",
                                   style: TextStyle(
                                     color: Color(0xff020435),
                                     fontSize: 18,
@@ -192,9 +192,9 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                       _homeHasBeenPressed =
                                                           !_homeHasBeenPressed;
 
-                                                      _officeHasBeenPressed =
+                                                      _weddingHasBeenPressed =
                                                           false;
-                                                      _villaHasBeenPressed =
+                                                      _eventHasBeenPressed =
                                                           false;
                                                     });
                                                   },
@@ -256,7 +256,7 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                   offset: Offset(-2, -2),
                                                 ),
                                                 BoxShadow(
-                                                  color: _officeHasBeenPressed
+                                                  color: _eventHasBeenPressed
                                                       ? const Color.fromARGB(
                                                           255,
                                                           185,
@@ -273,18 +273,18 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: Material(
-                                                color: _officeHasBeenPressed
+                                                color: _eventHasBeenPressed
                                                     ? const Color(0xffCABDFF)
                                                     : const Color(0xFFF1F5F9),
                                                 child: InkWell(
                                                   onTap: () {
                                                     setState(() {
-                                                      _officeHasBeenPressed =
-                                                          !_officeHasBeenPressed;
+                                                      _eventHasBeenPressed =
+                                                          !_eventHasBeenPressed;
 
                                                       _homeHasBeenPressed =
                                                           false;
-                                                      _villaHasBeenPressed =
+                                                      _weddingHasBeenPressed =
                                                           false;
                                                     });
                                                   },
@@ -296,10 +296,10 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                         const EdgeInsets.all(
                                                             20),
                                                     child: Icon(
-                                                      LineIcons.briefcase,
+                                                      LineIcons.glassCheers,
                                                       size: 45,
                                                       color:
-                                                          _officeHasBeenPressed
+                                                          _eventHasBeenPressed
                                                               ? Colors.white
                                                               : const Color(
                                                                   0xff6759FF),
@@ -316,7 +316,7 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                           height: 5,
                                         ),
                                         const Text(
-                                          "Office",
+                                          "Event",
                                           style: TextStyle(
                                             color: Color(0xff020435),
                                             fontSize: 15,
@@ -345,7 +345,7 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                   offset: Offset(-2, -2),
                                                 ),
                                                 BoxShadow(
-                                                  color: _villaHasBeenPressed
+                                                  color: _weddingHasBeenPressed
                                                       ? const Color.fromARGB(
                                                           255,
                                                           185,
@@ -362,18 +362,18 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: Material(
-                                                color: _villaHasBeenPressed
+                                                color: _weddingHasBeenPressed
                                                     ? const Color(0xffCABDFF)
                                                     : const Color(0xFFF1F5F9),
                                                 child: InkWell(
                                                   onTap: () {
                                                     setState(() {
-                                                      _villaHasBeenPressed =
-                                                          !_villaHasBeenPressed;
+                                                      _weddingHasBeenPressed =
+                                                          !_weddingHasBeenPressed;
 
                                                       _homeHasBeenPressed =
                                                           false;
-                                                      _officeHasBeenPressed =
+                                                      _eventHasBeenPressed =
                                                           false;
                                                     });
                                                   },
@@ -385,10 +385,10 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                         const EdgeInsets.all(
                                                             20),
                                                     child: Icon(
-                                                      LineIcons.hotel,
+                                                      LineIcons.ring,
                                                       size: 45,
                                                       color:
-                                                          _villaHasBeenPressed
+                                                          _weddingHasBeenPressed
                                                               ? Colors.white
                                                               : const Color(
                                                                   0xff6759FF),
@@ -403,7 +403,7 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                           height: 5,
                                         ),
                                         const Text(
-                                          "Villa",
+                                          "Wedding",
                                           style: TextStyle(
                                             color: Color(0xff020435),
                                             fontSize: 15,
@@ -435,7 +435,7 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                           const Expanded(
                                             flex: 3,
                                             child: Text(
-                                              "Number of units",
+                                              "Number of persons",
                                               style: TextStyle(
                                                 color: Color(0xff020435),
                                                 fontSize: 17,
@@ -456,11 +456,21 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                   child: InkWell(
                                                     onTap: () {
                                                       setState(() {
-                                                        if (unitCount != 1) {
-                                                          unitCount--;
+                                                        if (personCount != 1) {
+                                                          personCount--;
                                                         }
-                                                        unitsCost =
-                                                            unitCount * 500;
+
+                                                        if (personCount >= 3) {
+                                                          workersCosts = 1000;
+                                                          if (personCount >=
+                                                              5) {
+                                                            workersCosts = 2000;
+                                                          }
+                                                        } else {
+                                                          workersCosts = 500;
+                                                        }
+                                                        personsCost =
+                                                            personCount * 500;
                                                       });
                                                     },
                                                     highlightColor:
@@ -479,7 +489,7 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                           Expanded(
                                             child: Center(
                                               child: Text(
-                                                "$unitCount",
+                                                "$personCount",
                                                 style: const TextStyle(
                                                   color: Color(0xff020435),
                                                   fontSize: 17,
@@ -501,122 +511,20 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                   child: InkWell(
                                                     onTap: () {
                                                       setState(() {
-                                                        if (unitCount != 10) {
-                                                          unitCount++;
+                                                        if (personCount != 10) {
+                                                          personCount++;
                                                         }
-                                                        unitsCost =
-                                                            unitCount * 500;
-                                                      });
-                                                    },
-                                                    highlightColor:
-                                                        const Color.fromARGB(
-                                                            255, 207, 203, 255),
-                                                    child: const Icon(
-                                                      Icons.add,
-                                                      size: 40,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      //color: Colors.amber,
-                                      margin: const EdgeInsets.all(5),
-                                      child: Row(
-                                        children: [
-                                          const Expanded(
-                                            flex: 3,
-                                            child: Text(
-                                              "Number of rooms",
-                                              style: TextStyle(
-                                                color: Color(0xff020435),
-                                                fontSize: 17,
-                                                fontFamily: "Lato",
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              margin: const EdgeInsets.all(4),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                child: Material(
-                                                  color:
-                                                      const Color(0xff6759FF),
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        if (roomCount != 1) {
-                                                          roomCount--;
-                                                        }
-                                                        if (roomCount >= 5) {
-                                                          workersCosts = 2000;
-                                                          if (roomCount >= 8) {
-                                                            workersCosts = 5000;
+                                                        if (personCount >= 3) {
+                                                          workersCosts = 1000;
+                                                          if (personCount >=
+                                                              5) {
+                                                            workersCosts = 2000;
                                                           }
                                                         } else {
-                                                          workersCosts = 1000;
+                                                          workersCosts = 500;
                                                         }
-                                                      });
-                                                    },
-                                                    highlightColor:
-                                                        const Color.fromARGB(
-                                                            255, 207, 203, 255),
-                                                    child: const Icon(
-                                                      Icons.remove,
-                                                      size: 40,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Center(
-                                              child: Text(
-                                                "$roomCount",
-                                                style: const TextStyle(
-                                                  color: Color(0xff020435),
-                                                  fontSize: 17,
-                                                  fontFamily: "Lato",
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Container(
-                                              margin: const EdgeInsets.all(4),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                child: Material(
-                                                  color:
-                                                      const Color(0xff6759FF),
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        if (roomCount != 10) {
-                                                          roomCount++;
-                                                        }
-                                                        if (roomCount >= 5) {
-                                                          workersCosts = 2000;
-                                                          if (roomCount >= 8) {
-                                                            workersCosts = 5000;
-                                                          }
-                                                        } else {
-                                                          workersCosts = 1000;
-                                                        }
+                                                        personsCost =
+                                                            personCount * 500;
                                                       });
                                                     },
                                                     highlightColor:
@@ -712,7 +620,7 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                       right: 5,
                                                     ),
                                                     child: Text(
-                                                      "Rs $unitsCost",
+                                                      "Rs $personsCost",
                                                       style: const TextStyle(
                                                         color:
                                                             Color(0xff020435),
@@ -804,7 +712,7 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                       right: 5,
                                                     ),
                                                     child: Text(
-                                                      "Rs ${unitsCost + workersCosts}",
+                                                      "Rs ${personsCost + workersCosts}",
                                                       style: const TextStyle(
                                                         color:
                                                             Color(0xff020435),
@@ -843,8 +751,8 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                               10),
                                                       child: Material(
                                                         color: (_homeHasBeenPressed ||
-                                                                _officeHasBeenPressed ||
-                                                                _villaHasBeenPressed)
+                                                                _eventHasBeenPressed ||
+                                                                _weddingHasBeenPressed)
                                                             ? const Color(
                                                                 0xff6759FF)
                                                             : BrandColors
@@ -855,27 +763,25 @@ class _AcRegularServicePageState extends State<AcRegularServicePage> {
                                                               if (_homeHasBeenPressed) {
                                                                 globals.occasionType =
                                                                     "Home";
-                                                              } else if (_officeHasBeenPressed) {
+                                                              } else if (_eventHasBeenPressed) {
                                                                 globals.occasionType =
-                                                                    "Office";
-                                                              } else if (_villaHasBeenPressed) {
+                                                                    "Event";
+                                                              } else if (_weddingHasBeenPressed) {
                                                                 globals.occasionType =
-                                                                    "Villa";
+                                                                    "Wedding";
                                                               }
-                                                              globals.noOfRooms =
-                                                                  roomCount;
-                                                              globals.noOfUnits =
-                                                                  unitCount;
+                                                              globals.salonService =
+                                                                  "Hairdressing";
+                                                              globals.noOfPersons =
+                                                                  personCount;
                                                               globals.totalCost =
-                                                                  unitsCost +
+                                                                  personsCost +
                                                                       workersCosts;
-                                                              globals.acService =
-                                                                  "AC Regular Service";
                                                               globals.categorySelected =
-                                                                  "AC";
+                                                                  "Salon";
                                                               (_homeHasBeenPressed ||
-                                                                      _officeHasBeenPressed ||
-                                                                      _villaHasBeenPressed)
+                                                                      _eventHasBeenPressed ||
+                                                                      _weddingHasBeenPressed)
                                                                   ? Navigator
                                                                       .push(
                                                                       context,

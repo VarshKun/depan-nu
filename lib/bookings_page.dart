@@ -16,19 +16,7 @@ class _BookingsPageState extends State<BookingsPage> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
-      body: Center(
-        child: MaterialButton(
-          onPressed: () {
-            DatabaseReference dbref =
-                FirebaseDatabase.instance.ref().child('Test');
-            dbref.set('isConnected');
-          },
-          height: 50,
-          minWidth: 300,
-          color: Colors.green,
-          child: const Text('Test Connection'),
-        ),
-      ),
+      body: Center(),
     );
   }
 }
