@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'globalvariables.dart' as globals;
 
 class SearchPage extends StatefulWidget {
+  static _SearchPageState? instance;
   const SearchPage({Key? key}) : super(key: key);
 
   @override
@@ -18,12 +19,22 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  _SearchPageState() {
+    SearchPage.instance = this;
+  }
+
   String userLocation = '';
   var userController = TextEditingController(); //pickup
   var workerController = TextEditingController(); //dest
   bool buttonState = true;
 
   List<Prediction> userAddressPredictionList = [];
+
+  void bookWorker() {
+    setState(() {
+      Navigator.pop(context, 'getDirection');
+    });
+  }
 
   void searchPlace(String placeName) async {
     if (placeName.length > 1) {
@@ -232,7 +243,7 @@ class _SearchPageState extends State<SearchPage> {
                             child: InkWell(
                               onTap: buttonState
                                   ? () {
-                                      Navigator.pop(context, 'getDirection');
+                                      bookWorker();
                                     }
                                   : null,
                               highlightColor: const Color.fromARGB(
@@ -243,7 +254,7 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                               child: const Center(
                                 child: Text(
-                                  "BOOK NOW",
+                                  "BOOK WORKER",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,

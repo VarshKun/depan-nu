@@ -20,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'globalvariables.dart' as globals;
 
 class BookingsMapPage extends StatefulWidget {
+  static _BookingsMapPageState? instance;
   const BookingsMapPage({Key? key}) : super(key: key);
 
   @override
@@ -28,6 +29,10 @@ class BookingsMapPage extends StatefulWidget {
 }
 
 class _BookingsMapPageState extends State<BookingsMapPage> {
+  _BookingsMapPageState() {
+    BookingsMapPage.instance = this;
+  }
+
   final user = FirebaseAuth.instance.currentUser!;
   double mapPaddingBottom = 0;
   // ignore: prefer_final_fields
@@ -56,6 +61,28 @@ class _BookingsMapPageState extends State<BookingsMapPage> {
     ),
     zoom: 14.4746,
   );
+
+  void makePayment() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PaymentsPage(),
+      ),
+    );
+  }
+
+  void searchLocation() async {
+    var response = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SearchPage(),
+      ),
+    );
+
+    if (response == 'getDirection') {
+      showDetailsSheet();
+    }
+  }
 
   void createMarker() {
     // ignore: unnecessary_null_comparison
@@ -364,16 +391,7 @@ class _BookingsMapPageState extends State<BookingsMapPage> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          var response = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SearchPage(),
-                            ),
-                          );
-
-                          if (response == 'getDirection') {
-                            showDetailsSheet();
-                          }
+                          searchLocation();
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -681,13 +699,7 @@ class _BookingsMapPageState extends State<BookingsMapPage> {
                               color: const Color(0xff6759FF),
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const PaymentsPage(),
-                                    ),
-                                  );
+                                  makePayment();
                                 },
                                 highlightColor: const Color.fromARGB(
                                   255,

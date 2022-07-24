@@ -1,7 +1,21 @@
+import 'package:depan_nu/bookings_page_map.dart';
+import 'package:depan_nu/main_page.dart';
 import 'package:depan_nu/messages.dart';
+import 'package:depan_nu/payment.dart';
+import 'package:depan_nu/searchpage.dart';
+import 'package:depan_nu/services_details/AC/ac_check_up.dart';
+import 'package:depan_nu/services_details/AC/ac_installation.dart';
+import 'package:depan_nu/services_details/AC/ac_regular_service.dart';
+import 'package:depan_nu/services_details/AC/ac_uninstallation.dart';
+import 'package:depan_nu/services_details/Salon/hair_dressing.dart';
+import 'package:depan_nu/services_details/Salon/home_massage.dart';
+import 'package:depan_nu/services_details/Salon/nail_manicure.dart';
+import 'package:depan_nu/subcategories/ac_repair.dart';
+import 'package:depan_nu/subcategories/salon.dart';
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
 import 'package:alan_voice/alan_voice.dart';
+import 'package:depan_nu/globalvariables.dart' as globals;
 
 class ChatBot extends StatefulWidget {
   const ChatBot({Key? key}) : super(key: key);
@@ -38,8 +52,125 @@ class _ChatBotState extends State<ChatBot> {
     AlanVoice.onCommand.add((command) {
       debugPrint("got new command ${command.toString()}");
       var commandName = command.data["command"] ?? "";
-      if (commandName == "showAlert") {
-        /// handle command "showAlert"
+      switch (commandName) {
+        case "home page":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MainPage(),
+            ),
+          );
+          break;
+        case "ac repair page":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AcRepairPage(),
+            ),
+          );
+          break;
+        case "salon page":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SalonPage(),
+            ),
+          );
+          break;
+        case "ac check up page":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AcCheckUpPage(),
+            ),
+          );
+          break;
+        case "ac regular service page":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AcRegularServicePage(),
+            ),
+          );
+          break;
+        case "ac installation page":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AcInstallationPage(),
+            ),
+          );
+          break;
+        case "ac uninstallation page":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AcUninstallationPage(),
+            ),
+          );
+          break;
+        case "hairdressing page":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HairDressingPage(),
+            ),
+          );
+          break;
+        case "nail and toe manicure page":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ManicurePage(),
+            ),
+          );
+          break;
+        case "home massage page":
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MassagePage(),
+            ),
+          );
+          break;
+        case "increment units":
+          _incrementUnits();
+          break;
+        case "decrement units":
+          _decrementUnits();
+          break;
+        case "increment rooms":
+          _incrementRooms();
+          break;
+        case "decrement rooms":
+          _decrementRooms();
+          break;
+        case "select home":
+          _selectHome();
+          break;
+        case "select office":
+          _selectOffice();
+          break;
+        case "select villa":
+          _selectVilla();
+          break;
+        case "book now":
+          _bookNow();
+          break;
+        case "search location":
+          _searchBookingLocation();
+          break;
+        case "book worker":
+          _bookWorker();
+          break;
+        case "make payment":
+          _makePayment();
+          break;
+        case "confirm payment":
+          _confirmPayment();
+          break;
+        case "back":
+          Navigator.pop(context);
       }
     });
 
@@ -167,5 +298,53 @@ class _ChatBotState extends State<ChatBot> {
       'message': message,
       'isUserMessage': isUserMessage,
     });
+  }
+
+  void _incrementUnits() {
+    AcCheckUpPage.instance?.incrementUnits();
+  }
+
+  void _decrementUnits() {
+    AcCheckUpPage.instance?.decrementUnits();
+  }
+
+  void _incrementRooms() {
+    AcCheckUpPage.instance?.incrementRooms();
+  }
+
+  void _decrementRooms() {
+    AcCheckUpPage.instance?.decrementRooms();
+  }
+
+  void _selectHome() {
+    AcCheckUpPage.instance?.selectHome();
+  }
+
+  void _selectOffice() {
+    AcCheckUpPage.instance?.selectOffice();
+  }
+
+  void _selectVilla() {
+    AcCheckUpPage.instance?.selectVilla();
+  }
+
+  void _bookNow() {
+    AcCheckUpPage.instance?.bookNow();
+  }
+
+  void _bookWorker() {
+    SearchPage.instance?.bookWorker();
+  }
+
+  void _searchBookingLocation() {
+    BookingsMapPage.instance?.searchLocation();
+  }
+
+  void _makePayment() {
+    BookingsMapPage.instance?.makePayment();
+  }
+
+  void _confirmPayment() {
+    PaymentsPage.instance?.confirmPayment();
   }
 }

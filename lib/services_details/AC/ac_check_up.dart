@@ -7,6 +7,7 @@ import 'package:depan_nu/globalvariables.dart' as globals;
 import 'package:line_icons/line_icons.dart';
 
 class AcCheckUpPage extends StatefulWidget {
+  static _AcCheckUpPageState? instance;
   const AcCheckUpPage({Key? key}) : super(key: key);
 
   @override
@@ -15,13 +16,84 @@ class AcCheckUpPage extends StatefulWidget {
 }
 
 class _AcCheckUpPageState extends State<AcCheckUpPage> {
-  bool _officeHasBeenPressed = false;
-  bool _homeHasBeenPressed = false;
-  bool _villaHasBeenPressed = false;
-  int unitCount = 1;
-  int roomCount = 1;
-  int unitsCost = 200;
-  int workersCosts = 500;
+  _AcCheckUpPageState() {
+    AcCheckUpPage.instance = this;
+  }
+
+  void incrementUnits() {
+    setState(() => {
+          if (globals.noOfUnits != 10) {globals.noOfUnits++},
+          globals.unitsCosts = globals.noOfUnits * 200
+        });
+  }
+
+  void decrementUnits() {
+    setState(() => {
+          if (globals.noOfUnits != 1) {globals.noOfUnits--},
+          globals.unitsCosts = globals.noOfUnits * 200
+        });
+  }
+
+  void incrementRooms() {
+    setState(() => {
+          if (globals.noOfRooms != 10) {globals.noOfRooms++}
+        });
+  }
+
+  void decrementRooms() {
+    setState(() => {
+          if (globals.noOfRooms != 1) {globals.noOfRooms--}
+        });
+  }
+
+  void selectHome() {
+    setState(() {
+      globals.homeHasBeenPressed = true;
+      globals.officeHasBeenPressed = false;
+      globals.villaHasBeenPressed = false;
+    });
+  }
+
+  void selectOffice() {
+    setState(() {
+      globals.homeHasBeenPressed = false;
+      globals.officeHasBeenPressed = true;
+      globals.villaHasBeenPressed = false;
+    });
+  }
+
+  void selectVilla() {
+    setState(() {
+      globals.homeHasBeenPressed = false;
+      globals.officeHasBeenPressed = false;
+      globals.villaHasBeenPressed = true;
+    });
+  }
+
+  void bookNow() {
+    if (globals.homeHasBeenPressed) {
+      globals.propertyType = "Home";
+    } else if (globals.officeHasBeenPressed) {
+      globals.propertyType = "Office";
+    } else if (globals.villaHasBeenPressed) {
+      globals.propertyType = "Villa";
+    }
+    // globals.noOfUnits =
+    //     unitCount;
+    globals.totalCost = globals.unitsCosts + globals.workersCosts;
+    globals.acService = "AC Check-up";
+    globals.categorySelected = "AC";
+    (globals.homeHasBeenPressed ||
+            globals.officeHasBeenPressed ||
+            globals.villaHasBeenPressed)
+        ? Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const BookingsMapPage(),
+            ),
+          )
+        : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +129,9 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                     ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                   ),
                 ),
-                const BackButton(),
+                BackButton(onPressed: () {
+                  Navigator.pop(context);
+                }),
                 Container(
                   width: 45,
                   height: 25,
@@ -166,7 +240,8 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                   offset: Offset(-2, -2),
                                                 ),
                                                 BoxShadow(
-                                                  color: _homeHasBeenPressed
+                                                  color: globals
+                                                          .homeHasBeenPressed
                                                       ? const Color.fromARGB(
                                                           255,
                                                           185,
@@ -183,20 +258,22 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: Material(
-                                                color: _homeHasBeenPressed
+                                                color: globals
+                                                        .homeHasBeenPressed
                                                     ? const Color(0xffCABDFF)
                                                     : const Color(0xFFF1F5F9),
                                                 child: InkWell(
                                                   onTap: () {
-                                                    setState(() {
-                                                      _homeHasBeenPressed =
-                                                          !_homeHasBeenPressed;
+                                                    selectHome();
+                                                    // setState(() {
+                                                    //   _homeHasBeenPressed =
+                                                    //       !_homeHasBeenPressed;
 
-                                                      _officeHasBeenPressed =
-                                                          false;
-                                                      _villaHasBeenPressed =
-                                                          false;
-                                                    });
+                                                    //   _officeHasBeenPressed =
+                                                    //       false;
+                                                    //   _villaHasBeenPressed =
+                                                    //       false;
+                                                    // });
                                                   },
                                                   highlightColor:
                                                       const Color.fromARGB(
@@ -212,7 +289,8 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                     child: Icon(
                                                       LineIcons.home,
                                                       size: 45,
-                                                      color: _homeHasBeenPressed
+                                                      color: globals
+                                                              .homeHasBeenPressed
                                                           ? Colors.white
                                                           : const Color(
                                                               0xff6759FF),
@@ -256,7 +334,8 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                   offset: Offset(-2, -2),
                                                 ),
                                                 BoxShadow(
-                                                  color: _officeHasBeenPressed
+                                                  color: globals
+                                                          .officeHasBeenPressed
                                                       ? const Color.fromARGB(
                                                           255,
                                                           185,
@@ -273,20 +352,22 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: Material(
-                                                color: _officeHasBeenPressed
+                                                color: globals
+                                                        .officeHasBeenPressed
                                                     ? const Color(0xffCABDFF)
                                                     : const Color(0xFFF1F5F9),
                                                 child: InkWell(
                                                   onTap: () {
-                                                    setState(() {
-                                                      _officeHasBeenPressed =
-                                                          !_officeHasBeenPressed;
+                                                    selectOffice();
+                                                    // setState(() {
+                                                    //   _officeHasBeenPressed =
+                                                    //       !_officeHasBeenPressed;
 
-                                                      _homeHasBeenPressed =
-                                                          false;
-                                                      _villaHasBeenPressed =
-                                                          false;
-                                                    });
+                                                    //   _homeHasBeenPressed =
+                                                    //       false;
+                                                    //   _villaHasBeenPressed =
+                                                    //       false;
+                                                    // });
                                                   },
                                                   highlightColor:
                                                       const Color.fromARGB(
@@ -298,11 +379,11 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                     child: Icon(
                                                       LineIcons.briefcase,
                                                       size: 45,
-                                                      color:
-                                                          _officeHasBeenPressed
-                                                              ? Colors.white
-                                                              : const Color(
-                                                                  0xff6759FF),
+                                                      color: globals
+                                                              .officeHasBeenPressed
+                                                          ? Colors.white
+                                                          : const Color(
+                                                              0xff6759FF),
                                                     ),
                                                     // child: Image.asset(
                                                     //     "assets/images/icons/office.png"),
@@ -345,7 +426,8 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                   offset: Offset(-2, -2),
                                                 ),
                                                 BoxShadow(
-                                                  color: _villaHasBeenPressed
+                                                  color: globals
+                                                          .villaHasBeenPressed
                                                       ? const Color.fromARGB(
                                                           255,
                                                           185,
@@ -362,20 +444,22 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: Material(
-                                                color: _villaHasBeenPressed
+                                                color: globals
+                                                        .villaHasBeenPressed
                                                     ? const Color(0xffCABDFF)
                                                     : const Color(0xFFF1F5F9),
                                                 child: InkWell(
                                                   onTap: () {
-                                                    setState(() {
-                                                      _villaHasBeenPressed =
-                                                          !_villaHasBeenPressed;
+                                                    selectVilla();
+                                                    // setState(() {
+                                                    //   _villaHasBeenPressed =
+                                                    //       !_villaHasBeenPressed;
 
-                                                      _homeHasBeenPressed =
-                                                          false;
-                                                      _officeHasBeenPressed =
-                                                          false;
-                                                    });
+                                                    //   _homeHasBeenPressed =
+                                                    //       false;
+                                                    //   _officeHasBeenPressed =
+                                                    //       false;
+                                                    // });
                                                   },
                                                   highlightColor:
                                                       const Color.fromARGB(
@@ -387,11 +471,11 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                     child: Icon(
                                                       LineIcons.hotel,
                                                       size: 45,
-                                                      color:
-                                                          _villaHasBeenPressed
-                                                              ? Colors.white
-                                                              : const Color(
-                                                                  0xff6759FF),
+                                                      color: globals
+                                                              .villaHasBeenPressed
+                                                          ? Colors.white
+                                                          : const Color(
+                                                              0xff6759FF),
                                                     ),
                                                   ),
                                                 ),
@@ -455,13 +539,12 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                       const Color(0xff6759FF),
                                                   child: InkWell(
                                                     onTap: () {
-                                                      setState(() {
-                                                        if (unitCount != 1) {
-                                                          unitCount--;
-                                                        }
-                                                        unitsCost =
-                                                            unitCount * 200;
-                                                      });
+                                                      decrementUnits();
+                                                      // setState(() {
+                                                      //   globals.unitsCosts =
+                                                      //       globals.noOfUnits *
+                                                      //           200;
+                                                      // });
                                                     },
                                                     highlightColor:
                                                         const Color.fromARGB(
@@ -479,7 +562,7 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                           Expanded(
                                             child: Center(
                                               child: Text(
-                                                "$unitCount",
+                                                "${globals.noOfUnits}",
                                                 style: const TextStyle(
                                                   color: Color(0xff020435),
                                                   fontSize: 17,
@@ -500,13 +583,12 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                       const Color(0xff6759FF),
                                                   child: InkWell(
                                                     onTap: () {
-                                                      setState(() {
-                                                        if (unitCount != 10) {
-                                                          unitCount++;
-                                                        }
-                                                        unitsCost =
-                                                            unitCount * 200;
-                                                      });
+                                                      incrementUnits();
+                                                      // setState(() {
+                                                      //   globals.unitsCosts =
+                                                      //       globals.noOfUnits *
+                                                      //           200;
+                                                      // });
                                                     },
                                                     highlightColor:
                                                         const Color.fromARGB(
@@ -554,17 +636,21 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                       const Color(0xff6759FF),
                                                   child: InkWell(
                                                     onTap: () {
+                                                      decrementRooms();
                                                       setState(() {
-                                                        if (roomCount != 1) {
-                                                          roomCount--;
-                                                        }
-                                                        if (roomCount >= 5) {
-                                                          workersCosts = 1000;
-                                                          if (roomCount >= 8) {
-                                                            workersCosts = 2000;
+                                                        if (globals.noOfRooms >=
+                                                            5) {
+                                                          globals.workersCosts =
+                                                              1000;
+                                                          if (globals
+                                                                  .noOfRooms >=
+                                                              8) {
+                                                            globals.workersCosts =
+                                                                2000;
                                                           }
                                                         } else {
-                                                          workersCosts = 500;
+                                                          globals.workersCosts =
+                                                              500;
                                                         }
                                                       });
                                                     },
@@ -584,7 +670,7 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                           Expanded(
                                             child: Center(
                                               child: Text(
-                                                "$roomCount",
+                                                "${globals.noOfRooms}",
                                                 style: const TextStyle(
                                                   color: Color(0xff020435),
                                                   fontSize: 17,
@@ -605,17 +691,21 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                       const Color(0xff6759FF),
                                                   child: InkWell(
                                                     onTap: () {
+                                                      incrementRooms();
                                                       setState(() {
-                                                        if (roomCount != 10) {
-                                                          roomCount++;
-                                                        }
-                                                        if (roomCount >= 5) {
-                                                          workersCosts = 1000;
-                                                          if (roomCount >= 8) {
-                                                            workersCosts = 2000;
+                                                        if (globals.noOfRooms >=
+                                                            5) {
+                                                          globals.workersCosts =
+                                                              1000;
+                                                          if (globals
+                                                                  .noOfRooms >=
+                                                              8) {
+                                                            globals.workersCosts =
+                                                                2000;
                                                           }
                                                         } else {
-                                                          workersCosts = 500;
+                                                          globals.workersCosts =
+                                                              500;
                                                         }
                                                       });
                                                     },
@@ -712,7 +802,7 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                       right: 5,
                                                     ),
                                                     child: Text(
-                                                      "Rs $unitsCost",
+                                                      "Rs ${globals.unitsCosts}",
                                                       style: const TextStyle(
                                                         color:
                                                             Color(0xff020435),
@@ -758,7 +848,7 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                       right: 5,
                                                     ),
                                                     child: Text(
-                                                      "Rs $workersCosts",
+                                                      "Rs ${globals.workersCosts}",
                                                       style: const TextStyle(
                                                         color:
                                                             Color(0xff020435),
@@ -804,7 +894,7 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                       right: 5,
                                                     ),
                                                     child: Text(
-                                                      "Rs ${unitsCost + workersCosts}",
+                                                      "Rs ${globals.unitsCosts + globals.workersCosts}",
                                                       style: const TextStyle(
                                                         color:
                                                             Color(0xff020435),
@@ -842,9 +932,11 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                           BorderRadius.circular(
                                                               10),
                                                       child: Material(
-                                                        color: (_homeHasBeenPressed ||
-                                                                _officeHasBeenPressed ||
-                                                                _villaHasBeenPressed)
+                                                        color: (globals.homeHasBeenPressed ||
+                                                                globals
+                                                                    .officeHasBeenPressed ||
+                                                                globals
+                                                                    .villaHasBeenPressed)
                                                             ? const Color(
                                                                 0xff6759FF)
                                                             : BrandColors
@@ -852,40 +944,47 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                         child: InkWell(
                                                           onTap: () {
                                                             setState(() {
-                                                              if (_homeHasBeenPressed) {
-                                                                globals.propertyType =
-                                                                    "Home";
-                                                              } else if (_officeHasBeenPressed) {
-                                                                globals.propertyType =
-                                                                    "Office";
-                                                              } else if (_villaHasBeenPressed) {
-                                                                globals.propertyType =
-                                                                    "Villa";
-                                                              }
-                                                              globals.noOfRooms =
-                                                                  roomCount;
-                                                              globals.noOfUnits =
-                                                                  unitCount;
-                                                              globals.totalCost =
-                                                                  unitsCost +
-                                                                      workersCosts;
-                                                              globals.acService =
-                                                                  "AC Check-up";
-                                                              globals.categorySelected =
-                                                                  "AC";
-                                                              (_homeHasBeenPressed ||
-                                                                      _officeHasBeenPressed ||
-                                                                      _villaHasBeenPressed)
-                                                                  ? Navigator
-                                                                      .push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                        builder:
-                                                                            (context) =>
-                                                                                const BookingsMapPage(),
-                                                                      ),
-                                                                    )
-                                                                  : null;
+                                                              // if (globals
+                                                              //     .homeHasBeenPressed) {
+                                                              //   globals.propertyType =
+                                                              //       "Home";
+                                                              // } else if (globals
+                                                              //     .officeHasBeenPressed) {
+                                                              //   globals.propertyType =
+                                                              //       "Office";
+                                                              // } else if (globals
+                                                              //     .villaHasBeenPressed) {
+                                                              //   globals.propertyType =
+                                                              //       "Villa";
+                                                              // }
+                                                              // globals.noOfRooms =
+                                                              //     roomCount;
+                                                              // // globals.noOfUnits =
+                                                              // //     unitCount;
+                                                              // globals
+                                                              //     .totalCost = globals
+                                                              //         .unitsCosts +
+                                                              //     globals
+                                                              //         .workersCosts;
+                                                              // globals.acService =
+                                                              //     "AC Check-up";
+                                                              // globals.categorySelected =
+                                                              //     "AC";
+                                                              // (globals.homeHasBeenPressed ||
+                                                              //         globals
+                                                              //             .officeHasBeenPressed ||
+                                                              //         globals
+                                                              //             .villaHasBeenPressed)
+                                                              //     ? Navigator
+                                                              //         .push(
+                                                              //         context,
+                                                              //         MaterialPageRoute(
+                                                              //           builder:
+                                                              //               (context) =>
+                                                              //                   const BookingsMapPage(),
+                                                              //         ),
+                                                              //       )
+                                                              //     : null;
                                                             });
                                                           },
                                                           highlightColor:

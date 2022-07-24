@@ -1,4 +1,6 @@
 // ignore_for_file: unnecessary_string_interpolations
+// ignore: depend_on_referenced_packages
+import 'package:alan_voice/alan_voice.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depan_nu/main_page.dart';
@@ -15,6 +17,7 @@ import 'package:local_auth/error_codes.dart' as auth_error;
 import 'globalvariables.dart' as globals;
 
 class PaymentsPage extends StatefulWidget {
+  static _PaymentsPageState? instance;
   const PaymentsPage({Key? key}) : super(key: key);
 
   @override
@@ -23,6 +26,10 @@ class PaymentsPage extends StatefulWidget {
 }
 
 class _PaymentsPageState extends State<PaymentsPage> {
+  _PaymentsPageState() {
+    PaymentsPage.instance = this;
+  }
+
   String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
@@ -119,6 +126,95 @@ class _PaymentsPageState extends State<PaymentsPage> {
         _authorizedOrNot = "Not authorized";
       }
     });
+  }
+
+  void confirmPayment() async {
+    if (formKey.currentState!.validate()) {
+      AlanVoice.playText('Please scan your finger to confirm payment');
+      _checkBiometric();
+      _getListOfBiometricTypes();
+      await _authorizeNow();
+      if (_authorizedOrNot == "authorized") {
+        await workersDB
+            .child('worker${globals.closestWorkerID}')
+            .update({'serving': '${user.email}'});
+
+        DatabaseReference newBooking = bookingDB.push();
+        String formattedDate =
+            DateFormat('kk:mm:ss \n EEE d MMM').format(DateTime.now());
+        if (globals.categorySelected == "AC") {
+          FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+            'bookings': FieldValue.arrayUnion([
+              {
+                "booking id": '$bookingCounter',
+                "date": '$formattedDate',
+                "total cost": '${globals.totalCost}',
+                "customer email": '${user.email}',
+                "served by": '${globals.closestWorkerName}',
+                // ignore: unnecessary_null_comparison,
+                "service": '${globals.acService}',
+                "type of property": '${globals.propertyType}',
+                "no of units": '${globals.noOfUnits}',
+                "no of rooms": '${globals.noOfRooms}',
+              }
+            ])
+          });
+          await newBooking.set({
+            "booking id": bookingCounter,
+            "date": formattedDate,
+            "total cost": globals.totalCost,
+            "customer email": user.email,
+            "served by": globals.closestWorkerName,
+            // ignore: unnecessary_null_comparison
+            "service": globals.acService,
+            "type of property": globals.propertyType,
+            "no of units": globals.noOfUnits,
+            "no of rooms": globals.noOfRooms,
+          });
+        } else if (globals.categorySelected == "Salon") {
+          FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+            'bookings': FieldValue.arrayUnion([
+              {
+                "booking id": '$bookingCounter',
+                "date": '$formattedDate',
+                "total cost": '${globals.totalCost}',
+                "customer email": '${user.email}',
+                "served by": '${globals.closestWorkerName}',
+                // ignore: unnecessary_null_comparison,
+                "service": '${globals.salonService}',
+                "occasion type": '${globals.occasionType}',
+                "no of persons": '${globals.noOfPersons}',
+              }
+            ])
+          });
+          await newBooking.set({
+            "booking id": bookingCounter,
+            "date": formattedDate,
+            "total cost": globals.totalCost,
+            "customer email": user.email,
+            "served by": globals.closestWorkerName,
+            // ignore: unnecessary_null_comparison
+            "service": globals.salonService,
+            "occasion type": globals.occasionType,
+            "no of persons": globals.noOfPersons,
+          });
+        }
+
+        bookingCounter++;
+
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MainPage(),
+            ));
+        AlanVoice.playText("Booking complete");
+      } else {
+        AlanVoice.playText("Invalid fingerprint. Please re-scan your finger");
+      }
+    } else {
+      AlanVoice.playText("Invalid card. Please enter correct card details");
+    }
   }
 
   @override
@@ -235,103 +331,8 @@ class _PaymentsPageState extends State<PaymentsPage> {
                           ),
                         ),
                         onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            _checkBiometric();
-                            _getListOfBiometricTypes();
-                            await _authorizeNow();
-
-                            if (_authorizedOrNot == "authorized") {
-                              await workersDB
-                                  .child('worker${globals.closestWorkerID}')
-                                  .update({'serving': '${user.email}'});
-
-                              DatabaseReference newBooking = bookingDB.push();
-                              String formattedDate =
-                                  DateFormat('kk:mm:ss \n EEE d MMM')
-                                      .format(DateTime.now());
-
-                              if (globals.categorySelected == "AC") {
-                                FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(user.uid)
-                                    .update({
-                                  'bookings': FieldValue.arrayUnion([
-                                    {
-                                      "booking id": '$bookingCounter',
-                                      "date": '$formattedDate',
-                                      "total cost": '${globals.totalCost}',
-                                      "customer email": '${user.email}',
-                                      "served by":
-                                          '${globals.closestWorkerName}',
-                                      // ignore: unnecessary_null_comparison, unnecessary_string_interpolations
-                                      "service": '${globals.acService}',
-                                      "type of property":
-                                          '${globals.propertyType}',
-                                      "no of units": '${globals.noOfUnits}',
-                                      "no of rooms": '${globals.noOfRooms}',
-                                    }
-                                  ])
-                                });
-                                await newBooking.set({
-                                  "booking id": bookingCounter,
-                                  "date": formattedDate,
-                                  "total cost": globals.totalCost,
-                                  "customer email": user.email,
-                                  "served by": globals.closestWorkerName,
-                                  // ignore: unnecessary_null_comparison
-                                  "service": globals.acService,
-                                  "type of property": globals.propertyType,
-                                  "no of units": globals.noOfUnits,
-                                  "no of rooms": globals.noOfRooms,
-                                });
-                              } else if (globals.categorySelected == "Salon") {
-                                FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(user.uid)
-                                    .update({
-                                  'bookings': FieldValue.arrayUnion([
-                                    {
-                                      "booking id": '$bookingCounter',
-                                      "date": '$formattedDate',
-                                      "total cost": '${globals.totalCost}',
-                                      "customer email": '${user.email}',
-                                      "served by":
-                                          '${globals.closestWorkerName}',
-                                      // ignore: unnecessary_null_comparison, unnecessary_string_interpolations
-                                      "service": '${globals.salonService}',
-                                      "occasion type":
-                                          '${globals.occasionType}',
-                                      "no of persons": '${globals.noOfPersons}',
-                                    }
-                                  ])
-                                });
-                                await newBooking.set({
-                                  "booking id": bookingCounter,
-                                  "date": formattedDate,
-                                  "total cost": globals.totalCost,
-                                  "customer email": user.email,
-                                  "served by": globals.closestWorkerName,
-                                  // ignore: unnecessary_null_comparison
-                                  "service": globals.salonService,
-                                  "occasion type": globals.occasionType,
-                                  "no of persons": globals.noOfPersons,
-                                });
-                              }
-
-                              bookingCounter++;
-
-                              // ignore: use_build_context_synchronously
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MainPage(),
-                                ),
-                              );
-                            }
-                          } else {
-                            // ignore: avoid_print
-                            print('invalid card!');
-                          }
+                          confirmPayment();
+                          AlanVoice.playText("Booking complete");
                         },
                       ),
                       const SizedBox(

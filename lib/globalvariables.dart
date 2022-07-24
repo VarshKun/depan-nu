@@ -21,6 +21,11 @@ String salonService = "";
 
 /*AC*/
 String propertyType = "";
-int noOfUnits = 0;
-int noOfRooms = 0;
+int noOfUnits = 1;
+int noOfRooms = 1;
 String acService = "";
+bool homeHasBeenPressed = false;
+bool officeHasBeenPressed = false;
+bool villaHasBeenPressed = false;
+int unitsCosts = 200;
+int workersCosts = 500;

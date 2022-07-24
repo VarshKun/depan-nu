@@ -23,6 +23,7 @@ class GoogleSignInProvider extends ChangeNotifier {
           await FirebaseAuth.instance.signInWithCredential(credential);
       userDet = userCredential.user;
 
+      // ignore: unnecessary_null_comparison
       if (googleUser == null) {
         return;
       } else {
