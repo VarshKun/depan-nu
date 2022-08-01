@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'package:alan_voice/alan_voice.dart';
 import 'package:depan_nu/datamodels/address.dart';
 import 'package:depan_nu/dataprovider/appdata.dart';
 import 'package:depan_nu/helper/helpermethods.dart';
@@ -20,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'globalvariables.dart' as globals;
 
 class BookingsMapPage extends StatefulWidget {
+  // ignore: library_private_types_in_public_api
   static _BookingsMapPageState? instance;
   const BookingsMapPage({Key? key}) : super(key: key);
 
@@ -254,6 +256,10 @@ class _BookingsMapPageState extends State<BookingsMapPage> {
         Address? address = Address();
         Provider.of<AppData>(context, listen: false)
             .updateClosestWorkerAddress(address);
+        setState(() {
+          AlanVoice.activate();
+          AlanVoice.playText('No worker available at the moment');
+        });
       }
       // var sortedKeys = closestWorkersList.keys.toList(growable: false)
       //   ..sort(

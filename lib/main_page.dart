@@ -1,3 +1,4 @@
+import 'package:depan_nu/all_categories.dart';
 import 'package:depan_nu/chatbot.dart';
 import 'package:depan_nu/map.dart';
 import 'package:depan_nu/settings_page.dart';
@@ -10,6 +11,7 @@ import 'bookings_page.dart';
 import 'home_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shake/shake.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -29,6 +31,7 @@ class CardItem {
 class _MainPageState extends State<MainPage> {
   final user = FirebaseAuth.instance.currentUser!;
   int currentIndex = 0;
+  late ShakeDetector detector;
 
   final screens = [
     const HomePage(),
@@ -56,6 +59,28 @@ class _MainPageState extends State<MainPage> {
       showToast("Provide access to microphone to access chatbot",
           position: ToastPosition.center);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    detector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CategoriesPage(),
+          ),
+        );
+      },
+      minimumShakeCount: 3,
+    );
+  }
+
+  @override
+  void dispose() {
+    detector.stopListening();
+    super.dispose();
   }
 
   @override

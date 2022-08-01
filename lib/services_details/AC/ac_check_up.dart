@@ -7,6 +7,7 @@ import 'package:depan_nu/globalvariables.dart' as globals;
 import 'package:line_icons/line_icons.dart';
 
 class AcCheckUpPage extends StatefulWidget {
+  // ignore: library_private_types_in_public_api
   static _AcCheckUpPageState? instance;
   const AcCheckUpPage({Key? key}) : super(key: key);
 
@@ -944,47 +945,7 @@ class _AcCheckUpPageState extends State<AcCheckUpPage> {
                                                         child: InkWell(
                                                           onTap: () {
                                                             setState(() {
-                                                              // if (globals
-                                                              //     .homeHasBeenPressed) {
-                                                              //   globals.propertyType =
-                                                              //       "Home";
-                                                              // } else if (globals
-                                                              //     .officeHasBeenPressed) {
-                                                              //   globals.propertyType =
-                                                              //       "Office";
-                                                              // } else if (globals
-                                                              //     .villaHasBeenPressed) {
-                                                              //   globals.propertyType =
-                                                              //       "Villa";
-                                                              // }
-                                                              // globals.noOfRooms =
-                                                              //     roomCount;
-                                                              // // globals.noOfUnits =
-                                                              // //     unitCount;
-                                                              // globals
-                                                              //     .totalCost = globals
-                                                              //         .unitsCosts +
-                                                              //     globals
-                                                              //         .workersCosts;
-                                                              // globals.acService =
-                                                              //     "AC Check-up";
-                                                              // globals.categorySelected =
-                                                              //     "AC";
-                                                              // (globals.homeHasBeenPressed ||
-                                                              //         globals
-                                                              //             .officeHasBeenPressed ||
-                                                              //         globals
-                                                              //             .villaHasBeenPressed)
-                                                              //     ? Navigator
-                                                              //         .push(
-                                                              //         context,
-                                                              //         MaterialPageRoute(
-                                                              //           builder:
-                                                              //               (context) =>
-                                                              //                   const BookingsMapPage(),
-                                                              //         ),
-                                                              //       )
-                                                              //     : null;
+                                                              bookNow();
                                                             });
                                                           },
                                                           highlightColor:

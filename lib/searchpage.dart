@@ -1,4 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
+import 'package:alan_voice/alan_voice.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:brand_colors/brand_colors.dart';
 import 'package:depan_nu/components/prediction_tile.dart';
 import 'package:depan_nu/datamodels/prediction.dart';
@@ -10,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'globalvariables.dart' as globals;
 
 class SearchPage extends StatefulWidget {
+  // ignore: library_private_types_in_public_api
   static _SearchPageState? instance;
   const SearchPage({Key? key}) : super(key: key);
 
@@ -241,11 +244,14 @@ class _SearchPageState extends State<SearchPage> {
                                 ? const Color(0xff6759FF)
                                 : BrandColors.viberGray,
                             child: InkWell(
-                              onTap: buttonState
-                                  ? () {
-                                      bookWorker();
-                                    }
-                                  : null,
+                              onTap: () {
+                                setState(() {
+                                  buttonState
+                                      ? bookWorker()
+                                      : AlanVoice.playText(
+                                          'No worker available at the moment');
+                                });
+                              },
                               highlightColor: const Color.fromARGB(
                                 255,
                                 207,

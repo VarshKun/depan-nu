@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:depan_nu/helper/helpermethods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -31,6 +32,8 @@ class _MapPageState extends State<MapPage> {
   //var workersAvailableLocation = <double, double>{};
   double distanceinKM = 0;
   BitmapDescriptor? currentWorkersServingIcon;
+  CustomInfoWindowController _customInfoWindowController =
+      CustomInfoWindowController();
 
   // ignore: prefer_const_declarations
   static final CameraPosition _kCapital = const CameraPosition(
@@ -74,10 +77,79 @@ class _MapPageState extends State<MapPage> {
           LatLng workerLocation =
               LatLng(value["location"]["lat"], value["location"]["long"]);
           Marker thisMarker = Marker(
-            markerId: MarkerId(workerName),
-            position: workerLocation,
-            icon: currentWorkersServingIcon!,
-          );
+              markerId: MarkerId(workerName),
+              position: workerLocation,
+              icon: currentWorkersServingIcon!,
+              onTap: () {
+                _customInfoWindowController.addInfoWindow!(
+                  Container(
+                    // height: 100,
+                    // width: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(100),
+                          blurRadius: 8.0,
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Text(
+                              'Worker name : $workerName',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Color(0xff020435),
+                                fontSize: 14,
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w200,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Center(
+                            child: Text(
+                              'Phone No : ${value["phone"]}',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Color(0xff020435),
+                                fontSize: 14,
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w200,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const Center(
+                            child: Text(
+                              'Serving status : In progress',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xff020435),
+                                fontSize: 14,
+                                fontFamily: "Lato",
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  workerLocation,
+                );
+              });
           tempMarkers.removeWhere(
               (element) => element.markerId == thisMarker.markerId);
           tempMarkers.add(thisMarker);
@@ -193,13 +265,26 @@ class _MapPageState extends State<MapPage> {
             markers: _markers,
             circles: _circles,
             polylines: _polylines.toSet(),
+            onTap: (position) {
+              _customInfoWindowController.hideInfoWindow!();
+            },
+            onCameraMove: (position) {
+              _customInfoWindowController.onCameraMove!();
+            },
             onMapCreated: (GoogleMapController controller) {
               //pass instance of controller when map is created -> enables to make changes in gmap
               _controller.complete(controller);
+              _customInfoWindowController.googleMapController = controller;
               mapController = controller;
               setupPositionLocation();
             },
           ),
+          CustomInfoWindow(
+            controller: _customInfoWindowController,
+            height: 100,
+            width: 200,
+            offset: 100,
+          )
         ],
       ),
     );

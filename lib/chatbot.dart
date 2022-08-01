@@ -15,7 +15,6 @@ import 'package:depan_nu/subcategories/salon.dart';
 import 'package:dialog_flowtter/dialog_flowtter.dart';
 import 'package:flutter/material.dart';
 import 'package:alan_voice/alan_voice.dart';
-import 'package:depan_nu/globalvariables.dart' as globals;
 
 class ChatBot extends StatefulWidget {
   const ChatBot({Key? key}) : super(key: key);
@@ -195,6 +194,12 @@ class _ChatBotState extends State<ChatBot> {
     // AlanVoice.onCommand.add((command) {
     //   debugPrint("got new command ${command.toString()}");
     // });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    AlanVoice.deactivate();
   }
 
   @override

@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_string_interpolations
 // ignore: depend_on_referenced_packages
 import 'package:alan_voice/alan_voice.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depan_nu/main_page.dart';
@@ -17,6 +18,7 @@ import 'package:local_auth/error_codes.dart' as auth_error;
 import 'globalvariables.dart' as globals;
 
 class PaymentsPage extends StatefulWidget {
+  // ignore: library_private_types_in_public_api
   static _PaymentsPageState? instance;
   const PaymentsPage({Key? key}) : super(key: key);
 

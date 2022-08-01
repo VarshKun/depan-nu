@@ -563,6 +563,21 @@ class _HomeScreenState extends State<HomePage> {
                                           ],
                                         ),
                                       ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      const Text(
+                                        'You can shake phone 3 times to view all categories.',
+                                        style: TextStyle(
+                                          color: Color(0xff020435),
+                                          fontSize: 15,
+                                          fontFamily: "Lato",
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
                                       Expanded(
                                         flex: 3,
                                         //child: Container(color: Colors.amber),
